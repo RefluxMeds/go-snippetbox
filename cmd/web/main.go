@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"flag"
 	_ "github.com/go-sql-driver/mysql"
-	"github/go-snippetbox/internal/models"
+	"github.com/RefluxMeds/go-snippetbox/internal/models"
 	"log"
 	"net/http"
 	"os"
