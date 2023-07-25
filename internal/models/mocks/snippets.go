@@ -1,32 +1,34 @@
 package mocks
 
 import (
+	"time"
+
 	"github.com/RefluxMeds/go-snippetbox/internal/models"
 )
 
-type UserModel struct{}
-
-func (m *UserModel) Insert(name, email, password string) error {
-	switch email {
-	case "dupe@example.com":
-		return models.ErrDuplicateEmail
-	default:
-		return nil
-	}
+var mockSnippet = &models.Snippet{
+	ID:      1,
+	Title:   "An old silent pond",
+	Content: "An old silent pond...",
+	Created: time.Now(),
+	Expires: time.Now(),
 }
 
-func (m *UserModel) Authenticate(email, password string) (int, error) {
-	if email == "alice@example.com" && password == "pa$$w0rd" {
-		return 1, nil
-	}
-	return 0, models.ErrInvalidCredentials
+type SnippetModel struct{}
+
+func (m *SnippetModel) Insert(title string, content string, expires int) (int, error) {
+	return 2, nil
 }
 
-func (m *UserModel) Exists(id int) (bool, error) {
+func (m *SnippetModel) Get(id int) (*models.Snippet, error) {
 	switch id {
 	case 1:
-		return true, nil
+		return mockSnippet, nil
 	default:
-		return false, nil
+		return nil, models.ErrNoRecord
 	}
+}
+
+func (m *SnippetModel) Latest() ([]*models.Snippet, error) {
+	return []*models.Snippet{mockSnippet}, nil
 }
